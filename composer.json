@@ -1,0 +1,15 @@
+{
+    "name": "robinhakansson/assignment1",
+    "description": "Assignment 1 in DA288A. Web application using API from http://unicorns.idioti.se/api.html",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Robin Håkansson",
+            "email": "robin.lars.hakansson@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.23",
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
