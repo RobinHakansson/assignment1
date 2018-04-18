@@ -16,20 +16,24 @@ $logText = "";
 
 //Om parametern id finns och inte är tom
 if (!empty($_GET['id'])) {
-    $res = $client->request('GET', 'http://unicorns.idioti.se/'.$_GET['id'], ['headers' => ['accept' => 'application/json']]);
+    $res = $client->request(
+      'GET',
+      'http://unicorns.idioti.se/'.$_GET['id'],
+      ['headers' => ['accept' => 'application/json']]
+    );
 
     // Om HTTP-statuskoden är 200 (OK)
     if ($res->getStatusCode() == 200) {
         $logText = 'Requested info about: '.json_decode($res->getBody())->name;
-    }
-    // Om HTTP-statuskoden INTE är 200 (OK)
-    else {
+    } else { // Om HTTP-statuskoden INTE är 200 (OK)
         $logText = 'Error: '.$res->getStatusCode().' - No unicorn with id '.$_GET['id'].' was found.';
     }
-}
-//Om parametern id INTE finns eller är tom
-else {
-    $res = $client->request('GET', 'http://unicorns.idioti.se/', ['headers' => ['accept' => 'application/json']]);
+} else { //Om parametern id INTE finns eller är tom
+    $res = $client->request(
+      'GET',
+      'http://unicorns.idioti.se/',
+      ['headers' => ['accept' => 'application/json']]
+    );
     $logText = 'Requested info about: all unicorns';
 }
 
@@ -38,6 +42,7 @@ $log->info($logText);
 
 // Omvandla JSON-svar till datatyper
 $data = json_decode($res->getBody());
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -75,12 +80,9 @@ $data = json_decode($res->getBody());
         </form>
     <div id="result">
         <?php
-        // Om data från API är NULL ska felmeddelande skrivas ut
-        if ($data == null) {
+        if ($data == null) { // Om data från API är NULL ska felmeddelande skrivas ut
             echo "<p>Ingen enhörning med det Id gick att hitta. Försök med ett annat Id.</p>";
-        }
-        // Om data är av datatypen array ska listan med enhörningar skrivas ut
-        elseif (is_array($data)) {
+        } elseif (is_array($data)) { // Om data är av datatypen array ska listan med enhörningar skrivas ut
             echo "
             <h2>Alla enhörningar</h2>
             <ul>";
@@ -95,9 +97,7 @@ $data = json_decode($res->getBody());
             }
             echo "
             </ul>";
-        }
-        // Om data är av datatypen object ska enhörningen skrivas ut
-        elseif (is_object($data)) {
+        } elseif (is_object($data)) { // Om data är av datatypen object ska enhörningen skrivas ut
 
             echo "<div class='row no-gutters'>
                 <div class='col-md-5'>
@@ -142,6 +142,7 @@ $data = json_decode($res->getBody());
                 </div>
             </div>";
         }
+
         ?>
     </div>
 </div>
